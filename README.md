@@ -7,6 +7,8 @@ The error message string which has been used at creation time it's accessible by
 simply calling Msg.
 
 -It provides only one function which is errors.New("error message");
+-It also provides errors.New("message",calldepth) calldepth is a non negative interger
+ which specifies the calldepth, in the other New function is defaults to 1.
 -The errors type provides the errros.Error() which adds line number and file name/path;
 -The original error message it stored inside err.Msg
 

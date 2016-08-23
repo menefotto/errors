@@ -10,6 +10,10 @@ func New(err string) errors {
 
 }
 
+func New(err string, depth int) errors {
+	return errros{Msg: err, calldepth: depth}
+}
+
 type errors struct {
 	Msg       string
 	calldepth int
