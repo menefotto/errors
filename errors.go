@@ -28,7 +28,7 @@ func (e *errors) Error() string {
 		line = -1
 	}
 
-	if len(e.msg) > 79 {
+	if len(e.Msg) > 79 {
 		msg := []byte(e.Msg)
 		return fmt.Sprintf("%s\n%s: %s: %v\n",
 			msg[:79], msg[79:], file, line)
