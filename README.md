@@ -1,8 +1,9 @@
 Package errors 
 
 Errors is a simple package the provide a custom error type that satisfies the 
-error interface but provides more informations like the stardard log library, 
-will print out the line number and file name where the error happened.
+error interface but improves on the standard error type adding more informations 
+like the stardard log library does, will print out the line number and file name 
+where the error happened.
 The error message string which has been used at creation time it's accessible by
 simply calling Msg.
 
