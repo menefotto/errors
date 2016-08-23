@@ -10,4 +10,5 @@ simply calling Msg.
 -The errors type provides the errros.Error() which adds line number and file name/path;
 -The original error message it stored inside err.Msg
 
-
+This package has been developed with simplicity in mind and as a drop it replacement
+for the standard error type.
