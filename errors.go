@@ -3,15 +3,38 @@ package errors
 import (
 	"fmt"
 	"runtime"
+	"strconv"
 )
 
-func New(err string) errors {
-	return errors{Msg: err, calldepth: 1}
+func New(params ...string) errors {
+	if len(parmas) == 0 {
+		return errors{Msg: params, calldepth: 1}
+	}
 
-}
+	if len(parmas) > 1 {
+		return errors{Msg: "Ops too many params", calldepth: 1}
+	}
 
-func New(err string, depth int) errors {
-	return errros{Msg: err, calldepth: depth}
+	var (
+		err   errors
+		msg   string
+		depth int
+	)
+
+	for idx, value := range params {
+		switch {
+		case idx == 0:
+			msg := value
+		case idx == 1:
+			depth, e := strconv.Atoi(value)
+			if e != nil || depth < 0 {
+				depth = 1
+			}
+		}
+	}
+
+	return errors{Msg: msg, calldepth: depth}
+
 }
 
 type errors struct {
