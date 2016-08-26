@@ -6,35 +6,50 @@ import (
 	"strconv"
 )
 
-func New(params ...string) errors {
-	if len(parmas) == 0 {
-		return errors{Msg: params, calldepth: 1}
+func New(params ...string) *errors {
+	newerr := &errors{}
+
+	if len(params) == 0 {
+		return &errors{Msg: params[0], calldepth: 0}
 	}
 
-	if len(parmas) > 1 {
-		return errors{Msg: "Ops too many params", calldepth: 1}
+	if len(params) > 2 {
+		return &errors{Msg: "Ops too many params", calldepth: 0}
 	}
-
-	var (
-		err   errors
-		msg   string
-		depth int
-	)
 
 	for idx, value := range params {
 		switch {
 		case idx == 0:
-			msg := value
+			newerr.Msg = value
 		case idx == 1:
 			depth, e := strconv.Atoi(value)
 			if e != nil || depth < 0 {
-				depth = 1
+				newerr.calldepth = 1
 			}
 		}
 	}
 
-	return errors{Msg: msg, calldepth: depth}
+	var (
+		ok   bool
+		line int
+		file string
+	)
 
+	_, file, line, ok = runtime.Caller(newerr.calldepth)
+	if !ok {
+		file = "Ops no file name"
+		line = -1
+	}
+
+	if len(newerr.Msg) > 79 {
+		msg := []byte(newerr.Msg)
+		newerr.Msg = fmt.Sprintf("%s\n%s: %s: %v\n",
+			msg[:79], msg[79:], file, line)
+
+	}
+	newerr.Msg = fmt.Sprintf("%s: %s: %v\n", newerr.Msg, file, line)
+
+	return newerr
 }
 
 type errors struct {
@@ -43,24 +58,5 @@ type errors struct {
 }
 
 func (e *errors) Error() string {
-	var (
-		ok   bool
-		line int
-		file string
-	)
-
-	_, file, line, ok = runtime.Caller(e.calldepth)
-	if !ok {
-		file = "Ops no file name"
-		line = -1
-	}
-
-	if len(e.Msg) > 79 {
-		msg := []byte(e.Msg)
-		return fmt.Sprintf("%s\n%s: %s: %v\n",
-			msg[:79], msg[79:], file, line)
-
-	}
-	return fmt.Sprintf("%s: %s: %v\n", e.Msg, file, line)
-
+	return e.Msg
 }
