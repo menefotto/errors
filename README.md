@@ -17,6 +17,11 @@ simply calling Msg.
 
 -The original error message it stored inside err.Msg
 
+-It also provides a errors.Wrap function which can be used to wrap a standard error type.
+ It adds the line and file name of where it has been called.
+
 This package has been developed with simplicity in mind and as a drop it replacement
 for the standard error type/package.
 
+Caveats:
+-The reported error line is the one in which error.New has been called

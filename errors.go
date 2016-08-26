@@ -6,6 +6,9 @@ import (
 	"strconv"
 )
 
+func Wrap(old error) {
+	return New(old.Error())
+}
 func New(params ...string) *errors {
 	newerr := &errors{}
 
