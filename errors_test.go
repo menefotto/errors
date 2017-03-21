@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func tester() *errors {
+func tester() error {
 	return New("call indirection")
 }
 

@@ -6,17 +6,17 @@ import (
 	"strconv"
 )
 
-type ErrorFunc func() *errors
+type ErrorFunc func() errors
 
 func Wrap(old error) ErrorFunc {
-	f := func() *errors { return New(old.Error(), "2") }
+	f := func() errors { return New(old.Error(), "2") }
 	return f
 }
-func New(params ...string) *errors {
-	newerr := &errors{}
+func New(params ...string) errors {
+	newerr := errors{}
 
 	if len(params) > 2 {
-		return &errors{Msg: "Ops too many params", calldepth: 0}
+		return errors{Msg: "Ops too many params", calldepth: 0}
 	}
 
 	for idx, value := range params {
@@ -62,6 +62,6 @@ type errors struct {
 	calldepth int
 }
 
-func (e *errors) Error() string {
+func (e errors) Error() string {
 	return e.Msg
 }
